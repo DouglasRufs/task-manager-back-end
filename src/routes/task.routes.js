@@ -17,28 +17,7 @@ router.post("/", async (req, res) => {
     return new TaskController(req, res).create();
 });
 router.patch("/:id", async (req, res) => {
-    try {
-        const taskId = req.params.id;
-        const taskData = req.body;
-
-        const taskToUpdate = await TaskModel.findById(taskId);
-
-        const allowedUpdates = ["isCompleted"];
-
-        const requestUpdates = Object.keys(req.body);
-
-        for (Update of requestUpdates) {
-            if (allowedUpdates.includes(Update)) {
-                taskToUpdate[Update] = taskData[Update];
-            } else {
-                return res.status(500).send("Esse(s) não são editáveis");
-            }
-        }
-        await taskToUpdate.save();
-        return res.status(200).send(taskToUpdate);
-    } catch (error) {
-        return res.status(500).send(error.message);
-    }
+    return new TaskController(req, res).update();
 });
 
 router.delete("/:id", async (req, res) => {

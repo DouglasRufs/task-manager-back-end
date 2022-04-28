@@ -29,18 +29,42 @@ class TaskController {
             res.status(500).send(error.message);
         }
     }
-    async create(){
+    async create() {
         try {
-            const newTask = new TaskModel(req.body);
-    
+            const newTask = new TaskModel(this.req.body);
+
             await newTask.save();
-    
+
             this.res.status(201).send(newTask);
         } catch (error) {
             this.res.status(500).send(error.message);
         }
     }
-    
-    
+    async update() {
+        try {
+            const taskId = this.req.params.id;
+            const taskData = this.req.body;
+
+            const taskToUpdate = await TaskModel.findById(taskId);
+
+            const allowedUpdates = ["isCompleted"];
+
+            const requestUpdates = Object.keys(this.req.body);
+
+            for (const Update of requestUpdates) {
+                if (allowedUpdates.includes(Update)) {
+                    taskToUpdate[Update] = taskData[Update];
+                } else {
+                    return this.res
+                        .status(500)
+                        .send("Esse(s) não são editáveis");
+                }
+            }
+            await taskToUpdate.save();
+            return this.res.status(200).send(taskToUpdate);
+        } catch (error) {
+            return this.res.status(500).send(error.message);
+        }
+    }
 }
 module.exports = TaskController;
