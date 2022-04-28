@@ -1,17 +1,15 @@
 const express = require("express");
+
 const TaskModel = require("../models/task.model");
+const TaskController = require("../controllers/task.controller");
+
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    try {
-        const tasks = await TaskModel.find({});
-        res.status(200).send(tasks);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
+    return new TaskController(req,res).getTasks();
 });
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
         const task = await TaskModel.findById(taskId);
@@ -36,7 +34,7 @@ router.post("/", async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-router.patch("/", async (req, res) => {
+router.patch("/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
         const taskData = req.body;
@@ -61,7 +59,7 @@ router.patch("/", async (req, res) => {
     }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
 
