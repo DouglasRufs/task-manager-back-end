@@ -11,6 +11,7 @@ class TaskController {
         this.req = req;
         this.res = res;
     }
+    //metodo de busca  
 
     async getAll() {
         try {
@@ -20,6 +21,8 @@ class TaskController {
             this.res.status(500).send(error.message);
         }
     }
+    //Metodo de busca por ID
+
     async getByID() {
         try {
             const taskId = this.req.params.id;
@@ -36,6 +39,8 @@ class TaskController {
             return this.res.status(500).send(error.message);
         }
     }
+    //Metodo de criação
+
     async create() {
         try {
             const newTask = new TaskModel(this.req.body);
@@ -47,6 +52,8 @@ class TaskController {
             this.res.status(500).send(error.message);
         }
     }
+    //Metodo de atualização
+
     async update() {
         try {
             const taskId = this.req.params.id;
@@ -77,6 +84,8 @@ class TaskController {
             return this.res.status(500).send(error.message);
         }
     }
+    //Metodo de deleta
+
     async delete() {
         try {
             const taskId = this.req.params.id;

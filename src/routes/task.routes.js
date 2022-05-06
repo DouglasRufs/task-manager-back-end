@@ -19,7 +19,6 @@ router.post("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
     return new TaskController(req, res).update();
 });
-
 router.delete("/:id", async (req, res) => {
     return new TaskController(req, res).delete();
 });
